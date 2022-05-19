@@ -1,0 +1,95 @@
+<div class="config-card mt-10">
+  <div class="config-card-header">
+    <div class="config-icon">
+      <i class="fas fa-info"></i>
+    </div>
+    <div class="config-title">Configure Subscription</div>
+  </div>
+  <div class="config-card-body">
+
+    <div class="kr-setting-row mb-10 col-sm-12">
+      <form [formGroup]="subcriptionForm" autocomplete="off">
+        <div class="form-group row mb-15 required">
+          <div class="col-lg-3 col-md-4 col-sm-12"><label class="col-form-label">
+              Username</label></div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field floatLabel="never" appearance="outline"
+              [ngClass]="{'error-input' : formControls.username.touched && formControls.username.errors}">
+                <input type="text"
+                  matInput 
+                  formControlName="username"
+                  placeholder="Enter Username">
+              </mat-form-field>
+
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-1 col-1 p-l-0"></div>
+        </div>
+
+        <div class="form-group row mb-15 required align-center">
+          <div class="col-lg-3 col-md-4 col-sm-12"><label for="inputPass" class="col-form-label">
+              Password</label></div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field floatLabel="never" appearance="outline"
+              [ngClass]="{'error-input' : formControls.password.touched && formControls.password.errors}">
+              <input type="password"
+                  matInput 
+                  formControlName="password"
+                  placeholder="Enter Password">
+              </mat-form-field>              
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-1 col-1 pl-0">
+            <em *ngIf="formControls.password.errors"
+                class="fas fa-info-circle info-click kitinfoicon info-icon"
+                pTooltip="password must contain 8 characters long a uppercase character a lowercase character a number and a special character"
+                tooltipPosition="right"
+              ></em>
+          </div>
+        </div>
+        <div class="form-group row mb-15 required align-center">
+          <div class="col-lg-3 col-md-4 col-sm-12"><label for="inputPassword" class="col-form-label">
+            Topic Name</label></div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field floatLabel="never" appearance="outline"
+              [ngClass]="{'error-input' : formControls.topic_name.touched && formControls.topic_name.errors}">
+                <input type="text" 
+                  matInput 
+                  formControlName="topic_name"
+                  placeholder="Enter Topic Name"
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row mb-15">
+          <div class="col-lg-3 col-md-4 col-sm-12"><label for="inputPassword" class="col-form-label">
+              Consumer Group Name</label></div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field floatLabel="never" appearance="outline">
+                <input type="text" 
+                  matInput 
+                  formControlName="consumergroup"
+                  placeholder="Enter Consumer Group Name"
+                >
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-12 text-r">
+            <button [disabled]="!subcriptionForm.valid" (click)="saveForm()" class="btn btn-primary btn-md savebtn">
+              Save
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</div>

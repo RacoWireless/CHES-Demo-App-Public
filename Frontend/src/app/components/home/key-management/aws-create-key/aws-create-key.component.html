@@ -1,0 +1,307 @@
+<div class="card-title p-0">
+  <div class="back-btn" routerLink="/key-management" routerLinkActive="active">
+    <i class="ion-android-arrow-back"></i>
+  </div>
+  Key Management Services (KMS)
+</div>
+<div class="card-container p-0">
+  <div class="aws-logopart logopad">
+    <img src="../../../../assets/images/aws.svg" />
+  </div>
+  <div class="aws-cover aws-tabview">
+    <p-tabView [(activeIndex)]="activeIndex">
+      <p-tabPanel>
+        <ng-template pTemplate="header">
+          <div class="stepdiv">
+            <div class="steptext">Step 1</div>
+            <div class="stepname">Configure Key</div>
+          </div>
+        </ng-template>
+        <div class="tab-data" #configureKey>
+          <div class="tab-data-title mb-15">Configure Key</div>
+          <div class="tab-data-cover">
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">Key type</div>
+              <div class="card-cutom-body">
+                <div class="option-box flexdiv">
+                  <div
+                    id="type1"
+                    class="option-shape"
+                    disabled="true"
+                    [ngStyle]="{
+                      pointerEvents: 'none'
+                    }"
+                  >
+                    <div class="select-round"></div>
+                    <div class="line-1">Symmetric</div>
+                    <div class="line-2">
+                      A simple encryption key that is used for both encrypt and
+                      decrypt operations.
+                    </div>
+                  </div>
+                  <div
+                    id="type2"
+                    class="option-shape"
+                    (click)="optiontype($event)"
+                  >
+                    <div class="select-round"></div>
+                    <div class="line-1">Asymmetric</div>
+                    <div class="line-2">
+                      A simple encryption key that is used for both encrypt and
+                      decrypt operations.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">Key usage</div>
+              <div class="card-cutom-body">
+                <div class="option-box flexdiv">
+                  <div
+                    id="usage1"
+                    class="option-shape"
+                    (click)="optionusage($event)"
+                  >
+                    <div class="select-round"></div>
+                    <div class="line-1">Encrypt and decrypt</div>
+                    <div class="line-2">
+                      Key pair for public key encryption<br /><br />
+                      Uses the public key for encryption and private key for
+                      decryption
+                    </div>
+                  </div>
+                  <div
+                    id="usage2"
+                    class="option-shape"
+                    disabled="true"
+                    [ngStyle]="{
+                      pointerEvents: 'none'
+                    }"
+                  >
+                    <div class="select-round"></div>
+                    <div class="line-1">Sign and verify</div>
+                    <div class="line-2">
+                      Key pair for public key encryption<br /><br />
+                      Uses the public key for encryption and private key for
+                      decryption
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">Key spec</div>
+              <div class="card-cutom-body">
+                <div class="flexdiv align-center radio-font">
+                  <input
+                    type="radio"
+                    id="html"
+                    name="fav_language"
+                    value="RSA_2048"
+                    checked
+                  />
+                  <label for="html" class="m-0">RSA_2048</label>
+                </div>
+                <div class="flexdiv align-center radio-font">
+                  <input
+                    type="radio"
+                    id="html"
+                    name="fav_language"
+                    value="RSA_3072"
+                    disabled
+                  />
+                  <label for="html" class="m-0">RSA_3072</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="aws-btn-grp">
+              <button
+                class="btn btn-outline-secondary btn-md"
+                routerLink="/key-management"
+              >
+                Cancel
+              </button>
+              <button
+                [disabled]="checkConfigureKeyNext()"
+                class="btn btn-primary-oragne btn-md"
+                (click)="activeIndex = 1"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel [disabled]="checkAliasInput()">
+        <ng-template pTemplate="header">
+          <div class="stepdiv">
+            <div class="steptext">Step 2</div>
+            <div class="stepname">Add Labels</div>
+          </div>
+        </ng-template>
+        <div class="tab-data">
+          <div class="tab-data-title mb-15">Add labels</div>
+          <div class="tab-data-cover">
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">
+                Alias
+                <div class="title-small">
+                  You can change the alias at any time
+                </div>
+              </div>
+
+              <div class="card-cutom-body font-11">
+                <div class="form-group m-0 required">
+                  <label for="inputPassword" class="col-form-label pt-0">
+                    Alias</label
+                  >
+                  <input
+                    #key_alias
+                    type="text"
+                    class="form-control font-11"
+                    placeholder="Enter alias"
+                    (change)="checkAliasInput()"
+                    [(ngModel)]="keyalias"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">
+                Description-<span class="font-10">Optional</span>
+                <div class="title-small">
+                  You can change the description at any time
+                </div>
+              </div>
+              <div class="card-cutom-body font-11">
+                <div class="form-group m-0">
+                  <label for="inputPassword" class="col-form-label pt-0">
+                    Description</label
+                  >
+                  <textarea
+                    #key_description
+                    class="form-control font-11 h70"
+                    placeholder="Description for the key"
+                    (change)="checkDescriptionInput()"
+                    [(ngModel)]="keydescription"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="aws-btn-grp">
+              <button
+                class="btn btn-outline-secondary btn-md"
+                routerLink="/key-management"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn btn-outline-secondary btn-md"
+                (click)="activeIndex = 0"
+              >
+                Previous
+              </button>
+              <button
+                [disabled]="checkAliasInput()"
+                class="btn btn-primary-oragne btn-md"
+                (click)="activeIndex = 2; getValues()"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel [disabled]="checkAliasInput()">
+        <ng-template pTemplate="header">
+          <div class="stepdiv">
+            <div class="steptext">Step 3</div>
+            <div class="stepname">Review</div>
+          </div>
+        </ng-template>
+        <div class="tab-data">
+          <div class="tab-data-title mb-15">Review</div>
+          <div class="tab-data-cover">
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">Key configuration</div>
+
+              <div class="card-cutom-body font-11">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="">Key type</div>
+                    <div class="font-600">Asymmetric</div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="">Key spec</div>
+                    <div class="font-600">RSA_2048</div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="">Key usage</div>
+                    <div class="font-600">Encrypt and decrypt</div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="alert-box" role="alert">
+                      <i class="ion-ios-information"></i>
+                      You cannot change the key configuration after the key is
+                      created.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-cutom mb-12">
+              <div class="card-cutom-header">Alias and description</div>
+
+              <div class="card-cutom-body font-11">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="">Alias</div>
+                    <div class="font-600">{{ keyalias }}</div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="">Description</div>
+                    <div
+                      *ngIf="keydescription; else showHiphen"
+                      class="font-600"
+                    >
+                      {{ keydescription }}
+                    </div>
+                    <ng-template #showHiphen class="font-600">--</ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="aws-btn-grp">
+              <button
+                class="btn btn-outline-secondary btn-md"
+                routerLink="/key-management"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn btn-outline-secondary btn-md"
+                (click)="activeIndex = 1"
+              >
+                Previous
+              </button>
+              <button
+                class="btn btn-primary-oragne btn-md"
+                (click)="createKeyFile()"
+              >
+                Finish
+              </button>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

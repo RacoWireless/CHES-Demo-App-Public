@@ -1,0 +1,41 @@
+.form-error{
+    color:red
+}
+.apiinfoname{
+    color: #7a98b3;
+}
+#select_date , #select_time{
+    box-sizing: border-box;
+    outline: 0;
+    padding: 0.4rem;
+    position: relative;
+    width: 100%;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+    background-position-x: calc(100% - 2px);
+    background-size: 17px;
+    background-position-y:center;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+    background-position-x: calc(100% - 2px);
+    background-size: 17px;
+    background-position-y:center;
+}

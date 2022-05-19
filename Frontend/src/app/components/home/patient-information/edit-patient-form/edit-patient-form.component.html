@@ -1,0 +1,37 @@
+<h2 matDialogTitle>Edit Patient Information</h2>
+<div class="diaclose-icon" [mat-dialog-close]="true">
+  <mat-icon>close</mat-icon>
+</div>
+<form [formGroup]="form">
+  <mat-dialog-content>
+    <div class="form-group required">
+      <label class="dia-label">Patient ID</label>
+      <mat-form-field class="full-width" appearance="outline">
+        <input matInput placeholder="Enter Patient ID" formControlName="patient_id" />
+      </mat-form-field>
+    </div>
+    <div class="form-group required">
+      <label class="dia-label">Shared User ID</label>
+      <mat-form-field class="full-width" appearance="outline">
+        <input
+          matInput
+          placeholder="Enter Shared User ID"
+          formControlName="shared_user_id"
+        />
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="dia-footer gap-10">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      [disabled]="form.invalid"
+      (click)="editPatient()"
+    >
+      Save
+    </button>
+    <button mat-button matDialogClose class="btn btn-outline-secondary btn-sm">
+      Cancel
+    </button>
+  </mat-dialog-actions>
+</form>

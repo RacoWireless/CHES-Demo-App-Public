@@ -1,0 +1,9 @@
+.app-dialog-actions {
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+        min-width: 80px;
+    }
+}

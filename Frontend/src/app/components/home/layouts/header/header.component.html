@@ -1,0 +1,50 @@
+<div class="appheader">
+
+    <div class="flexdiv">
+        <div class="kr-toggle" (click)="togglesidebar()"><span></span><span></span><span></span></div>
+        <div class="logopart innerpart">
+            <div class="logo"></div>|<div class="appname">Customer Cloud</div>
+        </div>
+    </div>
+
+
+    <div class="kr-userprofile-div" (click)="progfiletoggle()">
+        <img id="user-avatar" src="../../../../../assets/images/ic_user.svg">
+        <div class="kr-namepart">
+            <div class="font-bold capitalize">{{username}}</div>
+            <div class="text-muted text-10">{{email}}</div>
+        </div>
+    </div>
+
+
+    <div class="userpopover">
+        <div class="usertitle">
+            <div class="kr-namepart text-center">
+                <div class="font-bold capitalize">{{username}}</div>
+                <div class="text-muted text-10">{{email}}</div>
+            </div>
+        </div>
+        <div class="userbody">
+            <div class="kr-fulldatapart">
+                <!-- <div class="info-row">
+                    <div class="text-muted text-10"> First Name </div>
+                    <div class="font-black">Remya</div>
+                </div>
+                <div class="info-row">
+                    <div class="text-muted text-10"> Last Name </div>
+                    <div class="font-black">Jose</div>
+                </div>
+                <div class="info-row">
+                    <div class="text-muted text-10"> Company Name </div>
+                    <div class="font-black">Admin company name pvt. ltd.</div>
+                </div> -->
+            </div>
+        </div>
+        <div class="userlogout">
+            <button (click) = "logout()" class="btn btn-primary btn-md btn-login w-100">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+</div>

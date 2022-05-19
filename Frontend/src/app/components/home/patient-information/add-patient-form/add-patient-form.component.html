@@ -1,0 +1,46 @@
+<div class="pi-box-grey">
+  <div class="pi-box-grey-title">Add Patient</div>
+  <div class="pi-box-grey-body">
+    <form [formGroup]="form">
+      <div class="row row-custom">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-custom">
+          <div class="row row-custom">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-custom">
+              <div class="form-group">
+                <mat-form-field class="full-width" appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Enter Patient ID"
+                    formControlName="patient_id"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-custom">
+              <div class="form-group">
+                <mat-form-field class="full-width" appearance="outline">
+                  <input
+                    matInput
+                    placeholder="Enter Shared User ID"
+                    formControlName="shared_user_id"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-custom">
+              <button
+                type="submit"
+                class="btn btn-primary btn-add btn-sm mb-1rem"
+                [disabled]="form.invalid"
+                (click)="addPatient()"
+              >
+                <i class="ion-person-add"></i>
+                <span>Add Patient</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

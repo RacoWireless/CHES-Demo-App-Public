@@ -1,0 +1,17 @@
+<h2 matDialogTitle>Download Key</h2>
+<div class="diaclose-icon" [mat-dialog-close]="true">
+  <mat-icon>close</mat-icon>
+</div>
+<mat-dialog-content>
+  <div>Are you sure want to download the public key?</div>
+</mat-dialog-content>
+<mat-dialog-actions class="app-dialog-actions">
+  <a [href]="sanitizedBlobUrl" [download]="filename" (click)="download()">
+    <button class="btn btn-primary btn-sm">
+      Download
+    </button>
+  </a>
+  <button mat-button matDialogClose class="btn btn-outline-secondary btn-sm">
+    Cancel
+  </button>
+</mat-dialog-actions>

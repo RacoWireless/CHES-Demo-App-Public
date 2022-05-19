@@ -1,0 +1,416 @@
+<div class="datacard">
+  <div class="card-title">
+    <div
+      class="back-btn"
+      routerLink="/patient-information"
+      routerLinkActive="active"
+    >
+      <i class="ion-android-arrow-back"></i>
+    </div>
+    Telemetry Data
+  </div>
+
+  <div class="card-container">
+    <div class="summary-box">
+      <div class="userico">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="sum-text">
+        <div class="sum-lbl">Patient ID</div>
+        <div class="font-600">{{ patientId }}</div>
+      </div>
+      <div class="sum-text">
+        <div class="sum-lbl">Shared User ID</div>
+        <div class="font-600">{{ sharedUserId }}</div>
+      </div>
+    </div>
+    <div class="grid-wrap">
+      <p-table
+        #peripheralsTableRef
+        [value]="peripheralDetailsList"
+        [columns]="columns"
+        [lazyLoadOnInit]="false"
+        [lazy]="true"
+        (onLazyLoad)="onLazyLoad($event)"
+        [rowHover]="true"
+        [totalRecords]="peripheralCount || 0"
+        [(rows)]="listLimit"
+        [(first)]="listFirst"
+        [loading]="isLoading"
+        [resizableColumns]="true"
+        [reorderableColumns]="true"
+        [paginator]="peripheralCount && columns.length > 0 ? true : false"
+        [showCurrentPageReport]="peripheralCount ? true : false"
+        [currentPageReportTemplate]="
+          'Showing {first} to {last} of {totalRecords} entries'
+        "
+        [filterDelay]="0"
+        [scrollable]="true"
+        styleClass=""
+        [rowsPerPageOptions]="listLimitOptions"
+        [sortOrder]="defaultSortOrder.prime_table_sort_order"
+        [sortField]="defaultSortField"
+      >
+        <ng-template pTemplate="caption">
+          <div class="grid-header-block">
+            <div class="row align-center">
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="kr-count-row">
+                  <span class="font-bold m-r-3 kr-count-span">
+                    {{ peripheralCount }}
+                  </span>
+                  <span class="text-muted ng-star-inserted"
+                    >records available</span
+                  >
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="searchbar-block">
+                  <!-- <button
+                    class="btn btn-outline-primary btn-reset btn-sm"
+                    (click)="resetFilters(peripheralsTableRef)"
+                  >
+                    Reset filters
+                  </button> -->
+                  <div
+                    class="refresh-btn"
+                    (click)="getPeripheralsList()"
+                    title="Refresh table"
+                  >
+                    <i class="fas fa-redo"></i>
+                  </div>
+                  <app-global-list-filter
+                    *ngIf="!resetGlobalFilter"
+                    [columns]="columns"
+                    (valueChanges)="globalFilter($event)"
+                  ></app-global-list-filter>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <ng-container *ngFor="let col of columns">
+              <ng-container
+                *ngIf="!col.is_filter_enabled && col.is_sort_enabled"
+              >
+                <th
+                  pReorderableColumn
+                  pResizableColumn
+                  [pSortableColumn]="col.field"
+                  style="width: 150px"
+                >
+                  <span>{{ col.header }}</span>
+                  <p-sortIcon
+                    [field]="col.field"
+                    class="table-sort-icon"
+                  ></p-sortIcon>
+                </th>
+              </ng-container>
+              <ng-container
+                *ngIf="col.is_filter_enabled && col.is_sort_enabled"
+              >
+                <th
+                  pReorderableColumn
+                  pResizableColumn
+                  [pSortableColumn]="col.field"
+                  style="width: 150px"
+                >
+                  <span>{{ col.header }}</span>
+                  <p-sortIcon
+                    [field]="col.field"
+                    class="table-sort-icon"
+                  ></p-sortIcon>
+                  <button
+                    class="filter-button"
+                    (click)="
+                      showFilterBox($event, col.field + '-input', col.field)
+                    "
+                  >
+                    <span class="pi pi-filter-icon pi-filter"></span>
+                  </button>
+                  <div
+                    [class]="col.field + '-input filter-wrapper'"
+                    (click)="stopPropagationOnFilter($event)"
+                  >
+                    <input
+                      #filterInputRef
+                      pInputText
+                      type="text"
+                      (keyup.enter)="
+                        setSearchOptionValue(col.field, filterInputRef.value);
+                        peripheralsTableRef.filter(
+                          $event.target,
+                          col.field,
+                          'contains'
+                        )
+                      "
+                      (input)="
+                        setSearchOptionValue(col.field, filterInputRef.value);
+                        peripheralsTableRef.filter(
+                          $event.target,
+                          col.field,
+                          'contains'
+                        )
+                      "
+                    />
+                    <button
+                      class="btn kr-btn kr-btn-primary kr-btn-md"
+                      (click)="onFilterDone(col.field + '-input')"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </th>
+              </ng-container>
+              <ng-container
+                *ngIf="!col.is_filter_enabled && !col.is_sort_enabled"
+              >
+                <th pReorderableColumn pResizableColumn style="width: 250px">
+                  <span>{{ col.header }}</span>
+                </th>
+              </ng-container>
+            </ng-container>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-peripheral>
+          <tr>
+            <ng-container *ngFor="let col of columns">
+              <ng-container [ngSwitch]="col.field">
+                <!--Telemetry Data-->
+                <ng-container *ngSwitchCase="'telemetry_data'">
+                  <td style="width: 250px">
+                    <ng-container
+                      *ngIf="
+                        isTelemetryDataFieldValid(peripheral[col.field]);
+                        else default
+                      "
+                    >
+                      <span class="value">
+                        <ng-container>
+                          <ng-container
+                            *ngIf="
+                              peripheral['device_type'] !== 'Pulse Oximeter' &&
+                              peripheral['device_type'] !==
+                                'Blood Pressure Meter' &&
+                              peripheral['device_type'] !== 'Spirometer'
+                            "
+                          >
+                            <ng-container
+                              *ngFor="
+                                let data of peripheral[col.field] | keyvalue
+                              "
+                            >
+                              <span
+                                *ngIf="data.key !== 'timestamp'"
+                                class="valuewrap"
+                              >
+                                <span class="color-black">{{
+                                  getTelemetryDataValue(data.value)
+                                }}</span>
+                                <span class="unit">{{
+                                  getTelemetryDataUnit(data.value)
+                                }}</span>
+                              </span>
+                            </ng-container>
+                          </ng-container>
+                          <ng-container
+                            *ngIf="
+                              peripheral['device_type'] ===
+                              'Blood Pressure Meter'
+                            "
+                          >
+                            <span class="valuewrap">
+                              <span class="color-black">{{
+                                peripheral[col.field]?.systolic?.split(" ")[0]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]?.systolic?.split(" ")[1]
+                              }}</span
+                              ><span class="slash"> / </span>
+                              <span class="color-black">{{
+                                peripheral[col.field]?.diastolic?.split(" ")[0]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]?.diastolic?.split(" ")[1]
+                              }}</span>
+                              <span class="color-black ml5px">{{
+                                peripheral[col.field].pulseRate.split(" ")[0]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]?.pulseRate?.split(" ")[1]
+                              }}</span>
+                            </span>
+                          </ng-container>
+                          <ng-container
+                            *ngIf="
+                              peripheral['device_type'] === 'Pulse Oximeter'
+                            "
+                          >
+                            <span class="valuewrap">
+                              <span class="color-black">{{
+                                peripheral[col.field]?.spO2?.split(" ")[0]
+                              }}</span>
+                              <span class="color-black">{{
+                                peripheral[col.field]?.spO2?.split(" ")[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]?.spO2?.split(" ")[2]
+                              }}</span>
+                              <span class="color-black ml5px">{{
+                                peripheral[col.field]?.pulseRate?.split(" ")[0]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]?.pulseRate?.split(" ")[1]
+                              }}</span>
+                              <span class="color-black ml5px">{{
+                                peripheral[col.field]?.pulseAmplitudeIndex?.split(
+                                  " "
+                                )[0]
+                              }}</span>
+                              <span class="color-black">{{
+                                peripheral[col.field]?.pulseAmplitudeIndex?.split(
+                                  " "
+                                )[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]?.pulseAmplitudeIndex?.split(
+                                  " "
+                                )[2]
+                              }}</span>
+                            </span>
+                          </ng-container>
+                          <!-- <ng-container
+                            *ngIf="peripheral['device_type'] === 'Spirometer'"
+                          >
+                            <span class="valuewrap">
+                              <span class="color-black">{{
+                                peripheral[col.field]["FEF25-75"].split(" ")[0]
+                              }}</span>
+                              <span>{{
+                                peripheral[col.field]["FEF25-75"].split(" ")[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]["FEF25-75"].split(" ")[2]
+                              }}</span>
+                              <span class="color-black">{{
+                                peripheral[col.field].FEV1.split(" ")[0]
+                              }}</span>
+                              <span>{{
+                                peripheral[col.field].FEV1.split(" ")[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field].FEV1.split(" ")[2]
+                              }}</span>
+                              <span class="color-black">{{
+                                peripheral[col.field]["FEV1%"].split(" ")[0]
+                              }}</span>
+                              <span>{{
+                                peripheral[col.field]["FEV1%"].split(" ")[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field]["FEV1%"].split(" ")[2]
+                              }}</span>
+                              <span class="color-black">{{
+                                peripheral[col.field].PEF.split(" ")[0]
+                              }}</span>
+                              <span>{{
+                                peripheral[col.field].PEF.split(" ")[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field].PEF.split(" ")[2]
+                              }}</span>
+                              <span class="color-black">{{
+                                peripheral[col.field].PEFPersonalBest.split(
+                                  " "
+                                )[0]
+                              }}</span>
+                              <span>{{
+                                peripheral[col.field].PEFPersonalBest.split(
+                                  " "
+                                )[1]
+                              }}</span>
+                              <span class="unit">{{
+                                peripheral[col.field].PEFPersonalBest.split(
+                                  " "
+                                )[2]
+                              }}</span>
+                            </span>
+                          </ng-container> -->
+                          <ng-container
+                            *ngIf="peripheral['device_type'] === 'Spirometer'"
+                          >
+                            <ng-container
+                              *ngFor="
+                                let data of peripheral[col.field] | keyvalue
+                              "
+                            >
+                              <span
+                                *ngIf="data.key !== 'timestamp'"
+                                class="valuewrap"
+                              >
+                                <span class="color-black">{{
+                                  getTelemetryDataValue(data.value)
+                                }}</span>
+                                <span class="color-black"
+                                  >{{
+                                    getSpirometerTelemetryDataUnit(data.value)
+                                  }}
+                                </span>
+                                <span class="unit"
+                                  >{{
+                                    getSpirometerTelemetryDataKey(data.value)
+                                  }}
+                                  &nbsp;</span
+                                >
+                              </span>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </span>
+                    </ng-container>
+                    <ng-template #default>
+                      <span>{{ peripheral[col.field].message }}</span>
+                    </ng-template>
+                  </td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'last_reading'">
+                  <td style="width: 150px">
+                    {{ peripheral[col.field] | formatDate   }}
+                  </td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'created_time'">
+                  <td style="width: 150px">
+                    {{ peripheral[col.field] * 1000 | formatDate  }}
+                  </td>
+                </ng-container>
+                <ng-container *ngSwitchCase="'reason_code'">
+                  <td style="width: 170px">
+                    {{ peripheral[col.field] }}
+                  </td>
+                </ng-container>
+                <!--All other columns-->
+                <ng-container *ngSwitchDefault>
+                  <td style="width: 150px; white-space: normal">
+                    {{ peripheral[col.field] }}
+                  </td>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr *ngIf="peripheralCount === 0">
+            <td [colSpan]="columns.length">
+              <div class="flexdiv nodatatd">
+                <img src="../../../../assets/images/nodata.svg" />
+                <div>No record found!</div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

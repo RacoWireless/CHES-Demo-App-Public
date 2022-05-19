@@ -1,0 +1,25 @@
+<form [formGroup]="form" class="relative page-search glb-srch-temp">
+  <div class="filter-part">
+    <mat-form-field floatLabel="never" appearance="outline">
+      <mat-select placeholder="Search by" formControlName="search_by">
+        <ng-container *ngFor="let col of columns">
+          <mat-option *ngIf="col.is_filter_enabled" [value]="col.field">
+            {{ col.header }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="seperator"></div>
+  <div class="search-part">
+    <span class="kr-pagesearch" type="submit" (click)="emitChanges()">
+      <i class="fas fa-search"></i>
+    </span>
+    <input
+      class="form-control kr-pagesearch-bar form-control-borderless"
+      type="text"
+      placeholder="Search"
+      formControlName="search_value"
+    />
+  </div>
+</form>

@@ -1,0 +1,56 @@
+@use '../../../../styles.scss';
+
+.filter-wrapper {
+    display: none;
+}
+
+.unitname {
+    font-weight: 600;
+    padding-left: 6px;
+    color: #797c80;
+    font-size: 8px;
+    text-transform: uppercase;
+    padding-right: 2px;
+}
+
+.value {
+    @include styles.font();
+    display: inline-block;
+    border: 1px solid #8abdff;
+    border-radius: 3px;
+    padding: 0 5px;
+    color: #0050dc;
+    font-weight: 600;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    max-width: 100%;
+    white-space: normal;
+    .valuewrap{
+        display: inline-block;
+    }
+    .unit {
+        @include styles.font();
+        font-weight: normal;
+        padding-left: 2px;
+        font-size: 10px;
+        color: #333;
+    }
+}
+
+.slash{
+    font-weight: normal;
+    margin: 0 5px;
+    padding: 0;
+    color: #000;
+    font-size: 11px;
+}
+
+.ml5px{
+    margin-left: 10px;
+}
+
+.mr5px{
+    margin-right: 10px;
+}

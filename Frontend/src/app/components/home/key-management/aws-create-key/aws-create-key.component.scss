@@ -1,0 +1,82 @@
+
+.stepdiv{
+    .steptext {
+        font-size: 11px;
+        color: #888;
+        line-height: 1.4;
+    }
+    .stepname {
+        font-size: 11px;
+        color: #333;
+    }
+}
+
+.tab-data-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #000;
+}
+
+.option-box{
+    display: flex;
+    gap: 15px;
+    .option-shape {
+        border: 1px solid #b8b8b8;
+        padding: 12px 20px 12px 35px;
+        color: #333;
+        cursor: pointer;
+        position: relative;
+        flex: 1;
+        transition: .2s;
+        &:hover{
+            background-color: #f5fcff;
+            border-color: #aeddf1;
+        }
+        &.active{
+            background-color: #E7F8FF;
+            border-color: #3DBADA ;  
+            .select-round{
+                border-color: #3c8cd2;
+            }      
+        }
+        .line-1{
+            margin-bottom: 5px;
+        }
+        .line-2{
+            font-size: 10px;
+            line-height: 1.5;
+        }
+        .select-round {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            top: 17px;
+            left: 13px;
+            border: 2px solid #a9a9a9;
+        }
+    }
+}
+
+.radio-font{
+    font-size: 11px;
+    font-family: 'Open Sans';
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.aws-btn-grp {
+    display: flex;
+    float: left;
+    width: 100%;
+    gap: 10px;
+    justify-content: flex-end;
+    margin: 10px 0;
+    button{
+        font-weight: 600;
+    }
+}
+
+.h70{
+    height: 70px;
+}

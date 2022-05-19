@@ -1,0 +1,27 @@
+<h2 matDialogTitle>Assigned To</h2>
+<div class="diaclose-icon" [mat-dialog-close]="true">
+  <mat-icon>close</mat-icon>
+</div>
+<mat-dialog-content>
+  <div><strong>Assigned Patients</strong></div>
+</mat-dialog-content>
+<mat-dialog-content  *ngIf="patientList?.length ==0">
+  <div>No data found</div>
+</mat-dialog-content>
+<mat-dialog-content *ngIf="patientList?.length > 0">
+  <ul style="margin-left:-20px" *ngFor="let item of patientList">
+    <li *ngIf="item?.patient_id">{{item.patient_id}}</li>
+  </ul>
+</mat-dialog-content>
+
+<mat-dialog-content>
+<div><strong>Assigned Organizations</strong></div>
+</mat-dialog-content>
+<mat-dialog-content  *ngIf="orgList?.length==0">
+  <div>No data found</div>
+</mat-dialog-content>
+<mat-dialog-content *ngIf="orgList?.length > 0">
+  <ul style="margin-left:-20px" *ngFor="let item of orgList">
+    <li  *ngIf="item?.organization_name">{{item.organization_name}}</li>
+  </ul>
+</mat-dialog-content>

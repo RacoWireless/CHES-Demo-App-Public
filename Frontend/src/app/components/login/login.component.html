@@ -1,0 +1,43 @@
+<div class="cld-login">
+
+    <div class="container-fluid">
+        <div class="row align-center heightmobile">
+            <div class="col-lg-6 col-md-6 col-sm-12 login-left-block p-0">
+                <div class="login-left">
+                    <img src="../../../assets/images/loginback.png">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="login-right">
+                    <div class="logopart">
+                        <div class="logo"></div>|<div class="appname">Customer Cloud App</div>
+                    </div>
+                    <div class="logintitle">Login with your credentials</div>
+                    <form [formGroup] = "loginForm" autocomplete="off" autocomplete="chrome-off">
+                        <div class="form-group">
+                            <div class="ctrl-wrap">
+                                <i class="fas fa-envelope"></i>
+                                <input formControlName = "username" type="text" autocomplete="false" autocomplete="off" value="" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username">                          
+                            </div>               
+                          
+                          <span  class="form-error"  *ngIf = "formControls.username.touched && formControls.username.errors" >Username required
+                          </span>
+                        </div>
+                        <div class="form-group">
+                            <div class="ctrl-wrap">
+                                <i class="fas fa-lock"></i>
+                                <input formControlName = "password" type="password" autocomplete="false" value="" class="form-control" id="password" placeholder="Enter Password" >
+                            </div>
+                          <span  class="form-error" *ngIf = "formControls.password.touched && formControls.password.errors" >Password required
+                        </span>
+                        </div>  
+                        <p  class="login-error">{{msg}}</p>                 
+                        <button [disabled]="!loginForm.valid" (click) = "onLogin()" type="submit" class="btn btn-primary btn-login">Login</button>                         
+                        </form>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,19 @@
+<mat-dialog-content class="text-center">
+    <i class="ion-alert dia-delete-image"></i>
+    <p>
+      Are you sure want to delete the patient
+      <strong>"{{ data?.patient_id }}"</strong>?
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="dia-footer gap-10">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      (click)="deletePatient()"
+    >
+      Yes
+    </button>
+    <button mat-button matDialogClose class="btn btn-outline-secondary btn-sm">
+      No
+    </button>
+  </mat-dialog-actions>

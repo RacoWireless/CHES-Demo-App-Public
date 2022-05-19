@@ -1,0 +1,46 @@
+<div class="datacard">
+  <div class="card-title">Configuration</div>
+  <div class="card-container">
+    <div class="tab-view">
+      <mat-tab-group>
+
+        <mat-tab label="API Info">
+          <div class="config-card mt-10">
+            <div class="config-card-header">
+              <div class="config-icon">
+                <i class="fas fa-random"></i>
+              </div>
+              <div class="config-title">Telemetry Data Routing</div>
+            </div>
+            <div class="config-card-body">
+
+              <div class="kr-setting-row mb-10 col-sm-12">
+                <div class="form-group row mb-15">
+                  <div class="col-md-2"><label for="inputPassword" class="col-form-label">
+                      API Endpoint: </label></div>
+                  <div class="col-md-9 col-sm-11 col-11">
+                    <div class="kr-control-field">
+                      <label class="col-form-label font-bold apiinfoname">{{encryption_key}}</label>
+                    </div>
+                  </div>
+                  <div class="col-md-1 col-sm-1 col-1 p-l-0"></div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Subscription Info">
+          <app-subscription-form></app-subscription-form>
+        </mat-tab>
+
+        <mat-tab label="Assign Encryption key">
+          <app-assign-encryption-key (emitForm)="saveForm($event)"></app-assign-encryption-key>
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

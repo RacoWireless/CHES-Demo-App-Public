@@ -1,0 +1,70 @@
+.menuwrapper {
+    ul {
+        list-style: none;
+        padding: 0;
+        li {
+            margin-bottom: 6px;
+            a {
+                position: relative;
+                height: 40px;
+                width: 100%;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 3px;
+                text-decoration: none;
+                cursor: pointer;
+                .ball {
+                    display: none;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    position: absolute;
+                    right: 8px;
+                    top: 16px;
+                }
+                .menuname {
+                    font-weight: 600;
+                    color: #7a88a0;
+                }
+                i {
+                    font-size: 13px;
+                    color: #7a88a0;
+                    line-height: 1;
+                }
+                &:hover {
+                    background-color: #dde7f7;
+                }
+            }
+            &.active {
+                a {
+                    background-color: #eaf0f9;
+                    .menuname {
+                        color: #4c77c0;
+                    }
+                    i {
+                        color: #0056ea;
+                    }
+                    .ball {
+                        display: block;
+                        background-color: #9cc0ff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.appcontainer.collapsed {
+    .menuwrapper {
+        ul {
+            li {
+                a {
+                    height: 36px;
+                    padding: 10px 10px;
+                }
+            }
+        }
+    }
+}

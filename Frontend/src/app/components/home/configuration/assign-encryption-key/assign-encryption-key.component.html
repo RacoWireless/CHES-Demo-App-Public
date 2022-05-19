@@ -1,0 +1,191 @@
+<div class="config-card mt-10">
+  <div class="config-card-header">
+    <div class="config-icon">
+      <i class="pi pi-key font-600 keyiconleft"></i>
+    </div>
+    <div class="config-title">Configure Encryption Key</div>
+  </div>
+  <div class="config-card-body">
+    <div class="kr-setting-row mb-10 col-sm-12">
+      <form [formGroup]="encryptionKeyForm">
+        <div class="form-group row mb-15 required">
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <label class="col-form-label"> Select Encryption Key file</label>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field
+                floatLabel="never"
+                appearance="outline"
+                [ngClass]="{
+                  'error-input':
+                    formControls.key_file.touched &&
+                    formControls.key_file.errors
+                }"
+              >
+                <mat-select
+                  formControlName="key_file"
+                  placeholder="Select Encryption Key file"
+                >
+                  <mat-option *ngFor="let item of enc_key" [value]="item.id">
+                    {{ item.key_alias }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-1 col-1 p-l-0"></div>
+        </div>
+
+        <div class="form-group row mb-15 required">
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <label for="inputPassword" class="col-form-label">
+              Select Encryption Key type</label
+            >
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field
+                floatLabel="never"
+                appearance="outline"
+                [ngClass]="{
+                  'error-input':
+                    formControls.key_type.touched &&
+                    formControls.key_type.errors
+                }"
+              >
+                <mat-select
+                  formControlName="key_type"
+                  (selectionChange)="changeStatus($event)"
+                  placeholder="Select Key type"
+                >
+                  <mat-option
+                    *ngFor="let item of enc_key_type"
+                    [value]="item.value"
+                  >
+                    {{ item.title }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-1 col-1 p-l-0"></div>
+        </div>
+
+        <div class="form-group row mb-15 required" *ngIf="formControls['patient_id']">
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <label for="inputPassword" class="col-form-label">
+              Select Patient</label
+            >
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field
+                floatLabel="never"
+                appearance="outline"
+                [ngClass]="{
+                  'error-input':
+                    formControls['patient_id'].invalid
+                }"
+              >
+                <mat-select
+                  formControlName="patient_id"
+                  [placeholder]="status_patient"
+                >
+                  <mat-option
+                    *ngFor="let item of patient_list"
+                    [value]="item.id"
+                  >
+                    {{ item.patient_id }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-1 col-1"></div>
+        </div>
+
+        <div class="form-group row mb-15 required">
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <label for="inputPassword" class="col-form-label">
+              Encryption Key effective date</label
+            >
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <mat-form-field
+                floatLabel="never"
+                appearance="outline"
+                [ngClass]="{
+                  'error-input':
+                    formControls.enc_timezone.touched &&
+                    formControls.enc_timezone.errors
+                }"
+              >
+                <mat-select
+                  formControlName="enc_timezone"
+                  placeholder="Select time zone"
+                >
+                  <mat-option
+                    *ngFor="let item of timezone"
+                    [value]="item.value"
+                  >
+                    {{ item.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-1 col-1 text-r"></div>
+        </div>
+
+        <div class="form-group row mb-15">
+          <div class="col-lg-3 col-md-4 col-sm-12">
+            <label for="inputPassword" class="col-form-label"> </label>
+          </div>
+          <div class="col-lg-4 col-md-6 col-sm-11 col-11">
+            <div class="kr-control-field">
+              <div class="sch-flex">
+                <div class="sch-flex-box">
+                  <input
+                    id="select_date"
+                    formControlName="enc_date"
+                    type="date"
+                    [ngClass]="{
+                      'error-input-box':
+                        formControls.enc_date.touched &&
+                        formControls.enc_date.errors
+                    }"
+                  />
+                </div>
+                <div class="sch-flex-box">
+                  <input
+                    id="select_time"
+                    formControlName="enc_time"
+                    type="time"
+                    [ngClass]="{
+                      'error-input-box':
+                        formControls.enc_time.touched &&
+                        formControls.enc_time.errors
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-2 col-sm-12 text-r">
+            <button
+              [disabled]="
+                !encryptionKeyForm.valid
+              "
+              (click)="saveForm()"
+              class="btn btn-primary btn-md savebtn"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

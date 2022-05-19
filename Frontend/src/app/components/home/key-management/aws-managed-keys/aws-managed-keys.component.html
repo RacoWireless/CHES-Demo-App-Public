@@ -1,0 +1,145 @@
+<div class="aws-block">
+  <div class="aws-block-header bg-grey">
+    <span
+      >Customer Managed Keys <span>({{ responseCount || "0" }})</span></span
+    >
+    <a routerLink="/aws-create-key" routerLinkActive="active" class="link">
+      <button class="btn btn-primary-oragne btn-sm">Create Key</button>
+    </a>
+  </div>
+  <div class="aws-block-search bg-grey">
+    <div class="page-search">
+      <div class="search-part">
+        <form class="relative mr-10 page-search glb-srch-temp">
+          <span class="kr-pagesearch">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            class="form-control kr-pagesearch-bar form-control-borderless"
+            type="search"
+            placeholder="Filter keys by properties"
+            (keyup.enter)="setSearchOptionValue($event)"
+            (input)="setSearchOptionValue($event)"
+          />
+        </form>
+      </div>
+    </div>
+
+    <div class="page-count-flex">
+      <button class="page-arrow" (click)="prev()" [disabled]="isFirstPage()">
+        <i class="ion-chevron-left"></i>
+      </button>
+      <div class="page-count">
+        <span>{{ pageNumber || "0" }}</span>
+      </div>
+      <button class="page-arrow" (click)="next()" [disabled]="isLastPage()">
+        <i class="ion-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  <div class="aws-block-grid">
+    <div class="grid-wrap">
+      <p-table
+        #dt
+        dataKey="id"
+        [value]="awsKeysList"
+        [columns]="headerColumns"
+        [(selection)]="headerColumns"
+        [rowHover]="true"
+        [lazyLoadOnInit]="false"
+        [lazy]="true"
+        (onLazyLoad)="onLazyLoad($event)"
+        [totalRecords]="responseCount || 0"
+        [resizableColumns]="true"
+        [reorderableColumns]="true"
+        [responsive]="true"
+        [loading]="loading"
+        [rows]="rows"
+        [(first)]="first"
+        [paginator]="false"
+        [filterDelay]="0"
+        styleClass="p-datatable-responsive"
+        [scrollable]="true" 
+        scrollHeight="calc(100vh - 285px)"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr *ngIf="headerColumns.length > 0">
+            <th
+              *ngFor="let col of headerColumns; let i = index; let last = last"
+              pReorderableColumn
+              pResizableColumn
+              [pSortableColumn]="col.field"
+              class="filter-container"
+              [ngStyle]="{
+                paddingLeft: i == 0 ? '20px' : '',
+                width:
+                  i == 0 ? '120px' : i == 1 ? '280px' : last ? '50px' : '130px',
+                pointerEvents: last ? 'none' : ''
+              }"
+            >
+              <span class="th-spantext">{{ col.header }}</span>
+              <p-sortIcon
+                *ngIf="col.field !== 'download'"
+                [field]="col.field"
+                class="table-sort-icon"
+              ></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-awsKeysList
+          let-columns="headerColumns"
+        >
+          <tr class="p-selectable-row" *ngIf="headerColumns.length > 0">
+            <td *ngFor="let col of headerColumns; let i = index; let last = last" 
+            [ngStyle]="{
+              paddingLeft: i == 0 ? '20px' : '',
+              width:
+                i == 0 ? '120px' : i == 1 ? '280px' : last ? '50px' : '130px'
+            }">
+              <ng-container
+                *ngIf="col.field != 'download' && col.field != 'created_time'"
+              >
+                <span
+                  *ngIf="
+                    col.field == 'key_alias' || col.field == 'key_id';
+                    else awsKeysElse
+                  "
+                  class="link"
+                  >{{ awsKeysList[col.field] }}
+                </span>
+                <ng-template #awsKeysElse>
+                  {{ awsKeysList[col.field] }}
+                </ng-template>
+              </ng-container>
+              <ng-container
+                *ngIf="col.field == 'created_time' && awsKeysList[col.field]"
+              >
+                {{ awsKeysList[col.field] * 1000 | date: "d-M-yyyy, h:mm a" }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'download'">
+                <a class="download-icon mr10" mat-raised-button (click)="openViewDialog(awsKeysList)">
+                  <i class="fas fa-eye"></i>
+                </a>
+                <a class="download-icon" (click)="getKeyID(awsKeysList)">
+                  <i class="fas fa-cloud-download-alt"></i>
+                </a>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr *ngIf="headerColumns.length > 0">
+            <td [colSpan]="headerColumns.length">
+              <div class="flexdiv nodatatd">
+                <img src="../../../../assets/images/nodata.svg">
+                <div>No Result Found!</div>  
+              </div>  
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

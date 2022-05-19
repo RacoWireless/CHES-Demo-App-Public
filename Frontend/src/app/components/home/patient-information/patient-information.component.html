@@ -1,0 +1,205 @@
+<div class="datacard">
+  <div class="card-title">Patient Information</div>
+  <div class="card-container">
+    <div class="card-grid-view">
+      <app-add-patient-form
+        (status)="addUserResponse($event)"
+      ></app-add-patient-form>
+      <div class="grid-wrap">
+        <p-table
+          #patientsTableRef
+          [value]="patientDetailsList"
+          [columns]="columns"
+          [lazyLoadOnInit]="false"
+          [lazy]="true"
+          (onLazyLoad)="onLazyLoad($event)"
+          [rowHover]="true"
+          [totalRecords]="patientCount || 0"
+          [(rows)]="listLimit"
+          [(first)]="listFirst"
+          [loading]="isLoading"
+          [resizableColumns]="true"
+          [reorderableColumns]="true"
+          [paginator]="patientCount && columns.length > 0 ? true : false"
+          [showCurrentPageReport]="patientCount ? true : false"
+          [currentPageReportTemplate]="
+            'Showing {first} to {last} of {totalRecords} entries'
+          "
+          [filterDelay]="0"
+          [scrollable]="true"
+          styleClass=""
+          [rowsPerPageOptions]="listLimitOptions"
+        >
+          <ng-template pTemplate="caption">
+            <div class="grid-header-block">
+              <div class="row align-center">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <div class="kr-count-row">
+                    <span class="font-bold m-r-3 kr-count-span">
+                      {{ patientCount }}
+                    </span>
+                    <span class="text-muted ng-star-inserted"
+                      >Patients available</span
+                    >
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                  <div class="searchbar-block">
+                    <!-- <button class="btn btn-outline-primary btn-reset btn-sm" (click)="resetFilters(patientsTableRef)">
+                      Reset filters
+                    </button> -->
+                    <div
+                      class="refresh-btn"
+                      (click)="resetFilters(patientsTableRef)"
+                      title="Refresh table"
+                    >
+                      <i class="fas fa-redo"></i>
+                    </div>
+                    <app-global-list-filter
+                      *ngIf="!resetGlobalFilter"
+                      [columns]="columns"
+                      (valueChanges)="globalFilter($event)"
+                    ></app-global-list-filter>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <ng-container *ngFor="let col of columns">
+                <ng-container
+                  *ngIf="
+                    col.is_filter_enabled && col.is_sort_enabled;
+                    else default
+                  "
+                >
+                  <th
+                    pReorderableColumn
+                    pResizableColumn
+                    [pSortableColumn]="col.field" class="w-150"
+                  >
+                    <span>{{ col.header }}</span>
+                    <p-sortIcon
+                      [field]="col.field"
+                      class="table-sort-icon"
+                    ></p-sortIcon>
+                    <button
+                      class="filter-button"
+                      (click)="
+                        showFilterBox($event, col.field + '-input', col.field)
+                      "
+                    >
+                      <span class="pi pi-filter-icon pi-filter"></span>
+                    </button>
+                    <div
+                      [class]="col.field + '-input filter-wrapper'"
+                      (click)="stopPropagationOnFilter($event)"
+                    >
+                      <input
+                        pInputText
+                        #filterInputRef
+                        type="text"
+                        (keyup.enter)="
+                          setSearchOptionValue(col.field, filterInputRef.value);
+                          patientsTableRef.filter(
+                            $event.target,
+                            col.field,
+                            'contains'
+                          )
+                        "
+                        (input)="
+                          setSearchOptionValue(col.field, filterInputRef.value);
+                          patientsTableRef.filter(
+                            $event.target,
+                            col.field,
+                            'contains'
+                          )
+                        "
+                      />
+                      <button
+                        class="btn kr-btn kr-btn-primary kr-btn-md"
+                        (click)="onFilterDone(col.field + '-input')"
+                      >
+                        Done
+                      </button>
+                    </div>
+                  </th>
+                </ng-container>
+                <ng-template #default>
+                  <th pReorderableColumn pResizableColumn class="w-150">
+                    <span>{{ col.header }}</span>
+                  </th>
+                </ng-template>
+              </ng-container>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-patient>
+            <tr>
+              <ng-container *ngFor="let col of columns">
+                <ng-container [ngSwitch]="col.field">
+                  <!-- Actions column -->
+                  <ng-container *ngSwitchCase="'action'">
+                    <td class="w-150">
+                      <ng-container>
+                        <div class="flexdiv align-center gap10">
+                          <div
+                            class="td-icon"
+                            (click)="openEditDialog(patient)"
+                          >
+                            <i class="pi pi-pencil piedit"></i>
+                            <span class="editspan">Edit</span>
+                          </div>
+                          <div class="sepertator">|</div>
+                          <div
+                            class="td-icon"
+                            (click)="openDeleteDialog(patient)"
+                          >
+                            <i class="pi pi-minus-circle pidelete"></i>
+                            <span class="deletespan">Delete</span>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <!-- Shared User ID column with Hyperlink-->
+                  <ng-container *ngSwitchCase="'shared_user_id'">
+                    <td class="w-150">
+                      <span
+                        (click)="
+                          goToTelemetryData(
+                            patient[col.field],
+                            patient['patient_id']
+                          )
+                        "
+                        class="link"
+                      >
+                        {{ patient[col.field] }}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <!--All other columns-->
+                  <ng-container *ngSwitchDefault>
+                    <td class="w-150">
+                      {{ patient[col.field]}}
+                    </td>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr *ngIf="patientCount === 0">
+              <td [colSpan]="columns.length">
+                <div class="flexdiv nodatatd">
+                  <img src="../../../../assets/images/nodata.svg">
+                  <div>No patients found!</div>  
+                </div> 
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "name": "kafka_decrypt_lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.941.0",
+    "flat": "^5.0.2",
+    "underscore": "^1.13.1",
+    "dotenv": "^10.0.0",
+    "winston": "^3.3.3",
+    "moment": "^2.29.1",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.12",
+    "sequelize": "^6.6.2",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

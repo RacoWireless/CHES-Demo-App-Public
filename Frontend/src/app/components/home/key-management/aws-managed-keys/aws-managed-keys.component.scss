@@ -1,0 +1,109 @@
+
+.aws-block{
+    background-color: #fff;
+    float: left;
+    width: 100%;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    box-shadow: 0px 1px 3px #00000026;
+    .aws-block-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        span{
+            font-weight: 600;
+            font-size: 11px;
+        }
+    }
+    .aws-block-search {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 0 12px 12px 12px;
+        border-bottom: 1px solid #dedede;
+        .page-search{
+            width: 100%;
+            border:none;
+            max-width: 100%;
+            .search-part {
+                width: 100%;
+                input {
+                    border: 1px solid #ced4da;
+                    background-color:#fff;
+                }
+                .kr-pagesearch{
+                    left: 5px;
+                    top: 4px;
+                    right: auto;
+                    i{
+                        color: #909090;
+                    }   
+                }
+                .kr-pagesearch-bar {
+                    padding-left: 27px;
+                    padding-right: 5px;
+                }
+            }
+        }
+    }
+    .aws-block-grid{
+        float: left;
+        width: 100%;
+        .grid-wrap{
+            .table-custom{
+                thead{
+                    background-color: #f7f7f7;
+                }
+            }
+        }
+    }
+}
+
+
+.download-icon{
+    cursor: pointer;
+    color: #ff991b;
+    font-size: 12px;
+    &:hover{
+        color: #e27d00;
+    }
+}
+.table-custom{
+    thead{
+        background-color: #f7f7f7;
+    }
+
+}
+.download-icon{
+    cursor: pointer;
+    color: #ff991b;
+    font-weight: 600;
+}
+
+.mr10{
+    margin-right: 12px;
+}      
+
+.page-count-flex {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 27px;
+    .page-arrow {
+        padding: 0 6px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+        transition: .3s;
+        &:hover{
+            background-color: #e8ecec;
+        }
+    }
+    .page-count{
+        font-weight: 600;
+    }
+}
